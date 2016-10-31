@@ -13,52 +13,30 @@ class ScrollViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
     
-    private var strings = ["echo", "hola", "allo"]
-    
-    private var containerViews = [ContainerView]()
+    private var strings = ["echo", "hola", "allo", "foo", "bar", "baz", "qux", "Mo", "Larry", "Curly", "Shemp"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupViews()
+        
+        setupContainers()
     }
     
-    private func setupViews() {
-        self.setupContainers()
-    }
-    
-    fileprivate func removeContainers() {
-        for container in containerViews {
-            container.uninstall()
+    private func removeContainers() {
+        for child in childViewControllers {
+            child.willMove(toParentViewController: nil)
+            stackView.removeArrangedSubview(child.view)
+            child.removeFromParentViewController()
         }
-        containerViews.removeAll()
     }
     
-    fileprivate func setupContainers() {
+    private func setupContainers() {
         removeContainers()
         for string in strings {
-            performSegue(withIdentifier: "TestSegue", sender: string)
+            let child = storyboard!.instantiateViewController(withIdentifier: "Child") as! ChildViewController
+            addChildViewController(child)
+            child.string = string
+            stackView.addArrangedSubview(child.view)
+            child.didMove(toParentViewController: self)
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let viewController = segue.destination
-        let index = strings.index(of: sender as! String)!
-        add(viewController, at: index)
-    }
-    
-    fileprivate func add(_ viewController: UIViewController, at index: Int) {
-        let containerView = ContainerView(parentController: self)
-        containerView.install(viewController)
-        containerView.setNeedsDisplay()
-        containerView.setNeedsLayout()
-        stackView.addArrangedSubview(containerView)
-    }
-    
 }

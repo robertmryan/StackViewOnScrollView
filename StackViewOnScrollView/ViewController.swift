@@ -8,30 +8,9 @@
 
 import UIKit
 
-/// This class is Used for
-class EmptySegue: UIStoryboardSegue {
-    
-    override func perform() {
-        // nothing...
-    }
-    
-}
-
-
 class ViewController: UIViewController {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    // this is intentionally blank
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
